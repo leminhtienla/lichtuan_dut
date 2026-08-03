@@ -24,9 +24,11 @@ các từ khóa do bạn chọn (tên người, khoa, bộ môn...).
 3. Tìm "Lịch Tuần DUT - Cảnh báo từ khóa" trong HACS, bấm **Download**.
 4. Khởi động lại Home Assistant.
 5. Vào **Cài đặt → Thiết bị & Dịch vụ → Thêm tích hợp**, tìm "Lịch Tuần DUT".
-6. Nhập từ khóa, ví dụ:
+6. Nhập các nhóm từ khóa (mỗi dòng 1 nhóm, xem mục "Cấu hình từ khóa" bên dưới để biết cách gộp biến thể/viết tắt), ví dụ:
    ```
-   Lê Minh Tiến, Khoa Cơ khí Giao thông, Bộ môn: Kỹ thuật Ô tô
+   Lê Minh Tiến: Lê Minh Tiến, LMT, Thầy Tiến
+   Khoa Cơ khí Giao thông: Khoa Cơ khí Giao thông, CKGT
+   Bộ môn Kỹ thuật Ô tô: Kỹ thuật Ô tô, KTOT
    ```
    và (tùy chọn) một `notify` service.
 
@@ -55,6 +57,50 @@ automation:
             {{ trigger.event.data.content }}, lúc {{ trigger.event.data.time }},
             tại {{ trigger.event.data.location }}.
 ```
+
+## Cấu hình từ khóa (hỗ trợ viết tắt / biến thể)
+
+Mỗi **dòng** trong ô "Danh sách nhóm từ khóa" là **một nhóm**, và mỗi
+nhóm sẽ có **đúng 1 sensor riêng**. Cú pháp mỗi dòng:
+
+```
+Nhãn hiển thị: biến thể 1, biến thể 2, biến thể 3
+```
+
+Gộp tên đầy đủ + các cách viết tắt/gọi khác vào cùng 1 nhóm để không bị
+tạo tràn lan nhiều sensor cho cùng một đối tượng. Ví dụ thực tế:
+
+```
+Lê Minh Tiến: Lê Minh Tiến, LMT, Thầy Tiến
+Khoa Cơ khí Giao thông: Khoa Cơ khí Giao thông, CKGT, Khoa CKGT
+Bộ môn Kỹ thuật Ô tô: Kỹ thuật Ô tô, KTOT, Bộ môn Ô tô
+```
+
+→ Tạo ra 3 sensor: `Cảnh báo: Lê Minh Tiến`, `Cảnh báo: Khoa Cơ khí Giao thông`, `Cảnh báo: Bộ môn Kỹ thuật Ô tô`, cộng thêm 1 sensor tổng `Cảnh báo lịch tuần (tổng)`.
+
+Nếu một dòng không có dấu `:`, cả dòng được hiểu là 1 từ khóa đơn
+(không có biến thể riêng) — vẫn hợp lệ, ví dụ:
+```
+Đảng ủy
+```
+
+**Cách so khớp:**
+- Biến thể dài / có dấu cách (tên đầy đủ, cụm từ...): so khớp kiểu
+  "chuỗi con", không phân biệt hoa/thường — như tìm kiếm thông thường.
+- Biến thể là **viết tắt toàn chữ HOA ngắn** (2–8 ký tự, vd `CKGT`,
+  `LMT`, `KTOT`): so khớp có **ranh giới từ** + phân biệt hoa/thường,
+  để tránh khớp nhầm khi các chữ đó vô tình dính liền trong một từ
+  khác không liên quan. Vì vậy nên viết đúng dạng VIẾT HOA cho các
+  biến thể viết tắt để được áp dụng quy tắc an toàn này.
+
+## Có sensor riêng cho từng nhóm không? Đổi cấu hình có tự áp dụng không?
+
+- Có — mỗi nhóm/dòng cấu hình sẽ có 1 sensor riêng, cộng 1 sensor tổng.
+- Có — mỗi khi bạn sửa Options (từ khóa, tần suất, notify service...),
+  Home Assistant tự **reload toàn bộ** integration (qua
+  `add_update_listener`), nên danh sách sensor theo nhóm tự động
+  thêm/bớt đúng theo cấu hình mới ngay sau khi lưu, không cần khởi
+  động lại HA hay thao tác gì thêm.
 
 ## Phát hành phiên bản mới (để HACS hiện thông tin cập nhật)
 

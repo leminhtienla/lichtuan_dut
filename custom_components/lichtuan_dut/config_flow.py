@@ -27,6 +27,13 @@ from .const import (
     MAX_WEEKS_AHEAD,
     MIN_SCAN_INTERVAL,
 )
+from .parser import parse_keyword_groups
+
+KEYWORDS_EXAMPLE = (
+    "Lê Minh Tiến: Lê Minh Tiến, LMT, Thầy Tiến\n"
+    "Khoa Cơ khí Giao thông: Khoa Cơ khí Giao thông, CKGT\n"
+    "Bộ môn Kỹ thuật Ô tô: Kỹ thuật Ô tô, KTOT"
+)
 
 
 def _build_schema(defaults: dict[str, Any]) -> vol.Schema:
@@ -34,7 +41,9 @@ def _build_schema(defaults: dict[str, Any]) -> vol.Schema:
         {
             vol.Required(
                 CONF_KEYWORDS, default=defaults.get(CONF_KEYWORDS, "")
-            ): TextSelector(TextSelectorConfig(type=TextSelectorType.TEXT)),
+            ): TextSelector(
+                TextSelectorConfig(type=TextSelectorType.TEXT, multiline=True)
+            ),
             vol.Required(
                 CONF_SCAN_INTERVAL,
                 default=defaults.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
@@ -62,6 +71,11 @@ def _build_schema(defaults: dict[str, Any]) -> vol.Schema:
     )
 
 
+def _validate_keywords(raw: str) -> list[dict[str, Any]]:
+    """Parse & trả về danh sách nhóm; rỗng nếu không có nhóm hợp lệ nào."""
+    return parse_keyword_groups(raw)
+
+
 class LichTuanDutConfigFlow(ConfigFlow, domain=DOMAIN):
     """Config flow chính (bước thêm mới)."""
 
@@ -73,8 +87,8 @@ class LichTuanDutConfigFlow(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            keywords = [k.strip() for k in user_input[CONF_KEYWORDS].split(",") if k.strip()]
-            if not keywords:
+            groups = _validate_keywords(user_input[CONF_KEYWORDS])
+            if not groups:
                 errors["base"] = "no_keywords"
             else:
                 return self.async_create_entry(
@@ -84,11 +98,11 @@ class LichTuanDutConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=_build_schema(user_input or {}),
+            data_schema=_build_schema(
+                user_input or {CONF_KEYWORDS: KEYWORDS_EXAMPLE}
+            ),
             errors=errors,
-            description_placeholders={
-                "example": "Lê Minh Tiến, Khoa Cơ khí Giao thông, Bộ môn: Kỹ thuật Ô tô"
-            },
+            description_placeholders={"example": KEYWORDS_EXAMPLE},
         )
 
     @staticmethod
@@ -110,8 +124,8 @@ class LichTuanDutOptionsFlow(OptionsFlow):
         current = {**self._config_entry.data, **self._config_entry.options}
 
         if user_input is not None:
-            keywords = [k.strip() for k in user_input[CONF_KEYWORDS].split(",") if k.strip()]
-            if not keywords:
+            groups = _validate_keywords(user_input[CONF_KEYWORDS])
+            if not groups:
                 errors["base"] = "no_keywords"
             else:
                 return self.async_create_entry(title="", data=user_input)
@@ -120,4 +134,5 @@ class LichTuanDutOptionsFlow(OptionsFlow):
             step_id="init",
             data_schema=_build_schema(user_input or current),
             errors=errors,
+            description_placeholders={"example": KEYWORDS_EXAMPLE},
         )

@@ -3,9 +3,9 @@
     "step": {
       "user": {
         "title": "Lịch Tuần DUT - Cảnh báo từ khóa",
-        "description": "Nhập các từ khóa cần theo dõi trên lichtuan.dut.udn.vn, cách nhau bởi dấu phẩy. Ví dụ: {example}",
+        "description": "Mỗi DÒNG là một nhóm từ khóa (sẽ tạo 1 sensor riêng). Cú pháp: 'Nhãn: biến thể 1, biến thể 2, ...' — gộp tên đầy đủ + viết tắt vào cùng 1 nhóm. Nếu không có dấu ':' thì cả dòng là 1 từ khóa đơn. Ví dụ:\n{example}",
         "data": {
-          "keywords": "Từ khóa (cách nhau bởi dấu phẩy)",
+          "keywords": "Danh sách nhóm từ khóa (mỗi dòng 1 nhóm)",
           "scan_interval": "Tần suất kiểm tra (phút)",
           "weeks_ahead": "Số tuần kiểm tra thêm (0 = chỉ tuần hiện tại)",
           "notify_service": "Notify service tùy chọn (vd: notify.mobile_app_dien_thoai)"
@@ -13,15 +13,16 @@
       }
     },
     "error": {
-      "no_keywords": "Vui lòng nhập ít nhất một từ khóa hợp lệ."
+      "no_keywords": "Vui lòng nhập ít nhất một nhóm từ khóa hợp lệ (mỗi dòng 1 nhóm)."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Cập nhật cấu hình",
+        "description": "Mỗi DÒNG là một nhóm từ khóa (sẽ tạo 1 sensor riêng). Cú pháp: 'Nhãn: biến thể 1, biến thể 2, ...'. Ví dụ:\n{example}",
         "data": {
-          "keywords": "Từ khóa (cách nhau bởi dấu phẩy)",
+          "keywords": "Danh sách nhóm từ khóa (mỗi dòng 1 nhóm)",
           "scan_interval": "Tần suất kiểm tra (phút)",
           "weeks_ahead": "Số tuần kiểm tra thêm (0 = chỉ tuần hiện tại)",
           "notify_service": "Notify service tùy chọn (vd: notify.mobile_app_dien_thoai)"
@@ -29,7 +30,7 @@
       }
     },
     "error": {
-      "no_keywords": "Vui lòng nhập ít nhất một từ khóa hợp lệ."
+      "no_keywords": "Vui lòng nhập ít nhất một nhóm từ khóa hợp lệ (mỗi dòng 1 nhóm)."
     }
   }
 }

@@ -120,34 +120,114 @@ def parse_schedule(html: str, week_label: str = "") -> list[dict[str, Any]]:
     return entries
 
 
+def parse_keyword_groups(raw: str) -> list[dict[str, Any]]:
+    """Phân tích cấu hình từ khóa nhiều dòng thành danh sách nhóm.
+
+    Mỗi DÒNG là một nhóm (1 sensor). Cú pháp mỗi dòng:
+
+        Nhãn hiển thị: biến thể 1, biến thể 2, biến thể 3
+
+    Nếu dòng không có dấu ':', cả dòng được coi là nhãn kiêm biến thể
+    duy nhất (tương thích ngược với cấu hình 1-từ-khóa-1-dòng).
+
+    Ví dụ:
+        Lê Minh Tiến: Lê Minh Tiến, LMT, Tiến LM, Thầy Tiến
+        Khoa Cơ khí Giao thông: Khoa Cơ khí Giao thông, CKGT
+        Bộ môn Kỹ thuật Ô tô: Kỹ thuật Ô tô, KTOT
+
+    Trả về: [{"label": "Lê Minh Tiến", "variants": ["Lê Minh Tiến", "LMT", ...]}, ...]
+    """
+    groups: list[dict[str, Any]] = []
+    for raw_line in raw.replace(";", "\n").splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        if ":" in line:
+            label, variants_str = line.split(":", 1)
+            label = label.strip()
+            variants = [v.strip() for v in variants_str.split(",") if v.strip()]
+            if not variants:
+                variants = [label]
+        else:
+            label = line
+            variants = [line]
+
+        if not label:
+            continue
+
+        groups.append({"label": label, "variants": variants})
+
+    return groups
+
+
+_ACRONYM_RE = re.compile(r"^[A-ZÀ-Ỹ0-9]{2,8}$")
+
+
+def _variant_matches(variant: str, haystack_original: str, haystack_lower: str) -> bool:
+    """Kiểm tra 1 biến thể có khớp trong nội dung không.
+
+    - Biến thể dạng viết tắt toàn chữ HOA ngắn (vd 'CKGT', 'LMT'):
+      so khớp CÓ phân biệt hoa/thường + ranh giới từ (word boundary),
+      để tránh khớp nhầm vào giữa một từ khác.
+    - Biến thể thông thường (tên đầy đủ, cụm từ dài...): so khớp
+      không phân biệt hoa/thường theo kiểu "chuỗi con" (substring),
+      như trước đây.
+    """
+    variant = variant.strip()
+    if not variant:
+        return False
+
+    if _ACRONYM_RE.match(variant):
+        pattern = r"(?<!\w)" + re.escape(variant) + r"(?!\w)"
+        return re.search(pattern, haystack_original) is not None
+
+    return variant.lower() in haystack_lower
+
+
 def filter_by_keywords(
-    entries: list[dict[str, Any]], keywords: list[str]
+    entries: list[dict[str, Any]], keyword_groups: list[dict[str, Any]]
 ) -> list[dict[str, Any]]:
-    """Lọc các mục có chứa (không phân biệt hoa/thường) ít nhất 1 từ khóa.
+    """Lọc các mục có chứa (không phân biệt hoa/thường) ít nhất 1 nhóm từ khóa.
 
     Tìm trong các trường: content, participants, host, location.
-    Trả về bản sao mỗi mục kèm trường 'matched_keywords'.
+    Trả về bản sao mỗi mục kèm:
+    - 'matched_keywords': danh sách NHÃN nhóm đã khớp (dùng để map ra sensor)
+    - 'matched_variants': danh sách biến thể cụ thể đã khớp (để hiển thị debug)
     """
-    if not keywords:
+    if not keyword_groups:
         return []
 
-    lowered_keywords = [(kw, kw.lower()) for kw in keywords if kw.strip()]
     results: list[dict[str, Any]] = []
 
     for entry in entries:
-        haystack = " ".join(
+        haystack_original = " ".join(
             [
                 entry.get("content", ""),
                 entry.get("participants", ""),
                 entry.get("host", ""),
                 entry.get("location", ""),
             ]
-        ).lower()
+        )
+        haystack_lower = haystack_original.lower()
 
-        matched = [kw for kw, kw_lower in lowered_keywords if kw_lower in haystack]
-        if matched:
+        matched_labels: list[str] = []
+        matched_variants: list[str] = []
+
+        for group in keyword_groups:
+            hit_variants = [
+                v
+                for v in group["variants"]
+                if _variant_matches(v, haystack_original, haystack_lower)
+            ]
+            if hit_variants:
+                matched_labels.append(group["label"])
+                matched_variants.extend(hit_variants)
+
+        if matched_labels:
             new_entry = dict(entry)
-            new_entry["matched_keywords"] = matched
+            new_entry["matched_keywords"] = matched_labels
+            new_entry["matched_variants"] = matched_variants
             new_entry["id"] = entry_hash(entry)
             results.append(new_entry)
 

@@ -24,7 +24,7 @@ from .const import (
     STORAGE_KEY_TEMPLATE,
     STORAGE_VERSION,
 )
-from .parser import build_week_url, filter_by_keywords, parse_schedule
+from .parser import build_week_url, filter_by_keywords, parse_keyword_groups, parse_schedule
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,13 +51,19 @@ class LichTuanDutCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._loaded_storage = False
 
     @property
-    def keywords(self) -> list[str]:
+    def keyword_groups(self) -> list[dict[str, Any]]:
+        """Danh sách nhóm từ khóa, mỗi nhóm gồm 1 nhãn + các biến thể/viết tắt."""
         raw = self.entry.options.get(
             CONF_KEYWORDS, self.entry.data.get(CONF_KEYWORDS, "")
         )
         if isinstance(raw, list):
-            return [k.strip() for k in raw if k.strip()]
-        return [k.strip() for k in str(raw).split(",") if k.strip()]
+            raw = "\n".join(raw)
+        return parse_keyword_groups(str(raw))
+
+    @property
+    def keyword_labels(self) -> list[str]:
+        """Danh sách nhãn nhóm từ khóa (dùng để tạo 1 sensor / nhóm)."""
+        return [g["label"] for g in self.keyword_groups]
 
     @property
     def weeks_ahead(self) -> int:
@@ -91,8 +97,8 @@ class LichTuanDutCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     async def _async_update_data(self) -> dict[str, Any]:
         await self._async_load_storage()
 
-        keywords = self.keywords
-        if not keywords:
+        keyword_groups = self.keyword_groups
+        if not keyword_groups:
             return {"matches": [], "total_entries": 0, "new_matches": []}
 
         session = async_get_clientsession(self.hass)
@@ -116,7 +122,7 @@ class LichTuanDutCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             all_entries.extend(entries)
 
         matches = await self.hass.async_add_executor_job(
-            filter_by_keywords, all_entries, keywords
+            filter_by_keywords, all_entries, keyword_groups
         )
 
         new_matches = [m for m in matches if m["id"] not in self._seen_hashes]
@@ -140,9 +146,10 @@ class LichTuanDutCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         lines = []
         for m in new_matches[:10]:
             kw = ", ".join(m["matched_keywords"])
+            variants = ", ".join(m.get("matched_variants", []))
             lines.append(
                 f"• {m['day']} {m['date']} {m['time']} — {m['content']} "
-                f"(từ khóa: {kw}, tại: {m['location']})"
+                f"(từ khóa: {kw} [{variants}], tại: {m['location']})"
             )
         if len(new_matches) > 10:
             lines.append(f"... và {len(new_matches) - 10} mục khác.")

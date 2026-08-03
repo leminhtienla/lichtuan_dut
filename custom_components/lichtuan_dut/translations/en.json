@@ -3,9 +3,9 @@
     "step": {
       "user": {
         "title": "DUT Weekly Schedule - Keyword Alerts",
-        "description": "Enter keywords to watch for on lichtuan.dut.udn.vn, separated by commas. Example: {example}",
+        "description": "Each LINE is one keyword group (creates its own sensor). Syntax: 'Label: variant 1, variant 2, ...' — combine full name + abbreviations in one group. No ':' means the whole line is a single keyword. Example:\n{example}",
         "data": {
-          "keywords": "Keywords (comma separated)",
+          "keywords": "Keyword groups (one per line)",
           "scan_interval": "Check interval (minutes)",
           "weeks_ahead": "Extra weeks to check (0 = current week only)",
           "notify_service": "Optional notify service (e.g. notify.mobile_app_phone)"
@@ -13,15 +13,16 @@
       }
     },
     "error": {
-      "no_keywords": "Please enter at least one valid keyword."
+      "no_keywords": "Please enter at least one valid keyword group (one per line)."
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Update configuration",
+        "description": "Each LINE is one keyword group. Syntax: 'Label: variant 1, variant 2, ...'. Example:\n{example}",
         "data": {
-          "keywords": "Keywords (comma separated)",
+          "keywords": "Keyword groups (one per line)",
           "scan_interval": "Check interval (minutes)",
           "weeks_ahead": "Extra weeks to check (0 = current week only)",
           "notify_service": "Optional notify service (e.g. notify.mobile_app_phone)"
@@ -29,7 +30,7 @@
       }
     },
     "error": {
-      "no_keywords": "Please enter at least one valid keyword."
+      "no_keywords": "Please enter at least one valid keyword group (one per line)."
     }
   }
 }
