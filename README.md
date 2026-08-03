@@ -1,5 +1,9 @@
 # Lịch Tuần DUT - Cảnh báo từ khóa (Home Assistant custom integration)
 
+<p align="center">
+  <img src="assets/logo.png" alt="Logo Trường Đại học Bách khoa - Đại học Đà Nẵng" width="180">
+</p>
+
 Tích hợp tùy chỉnh cho Home Assistant, tự động kiểm tra định kỳ trang
 **lịch công tác tuần** của Trường Đại học Bách khoa - Đại học Đà Nẵng
 (`https://lichtuan.dut.udn.vn`) và **cảnh báo** khi có mục lịch chứa
@@ -145,6 +149,19 @@ validate` mỗi lần push, giúp bắt lỗi cấu trúc integration sớm.
 
 ## Ghi chú kỹ thuật
 
+- File logo được lưu tại `assets/logo.png` (+ `icon.png`, bản `@2x`)
+  theo đúng kích thước chuẩn của
+  [home-assistant/brands](https://github.com/home-assistant/brands)
+  (icon 256×256, có bản 512×512 cho màn hình nét cao).
+- **Quan trọng:** vì đây là integration tùy chỉnh (custom, không nằm
+  trong kho HACS mặc định), logo **sẽ hiển thị trên GitHub/README**
+  ngay, nhưng **sẽ KHÔNG tự hiển thị** trong danh sách HACS hay trang
+  Thiết bị & Dịch vụ của Home Assistant — cả hai nơi đó lấy icon từ
+  CDN chính thức `home-assistant/brands`, không đọc file trong repo
+  này. Muốn logo hiện trong giao diện HA thật, cần gửi Pull Request
+  thêm domain `lichtuan_dut` (kèm `icon.png`/`logo.png`) vào repo
+  `home-assistant/brands` và chờ được duyệt/merge. Với dùng cá nhân
+  không public, có thể bỏ qua bước này — không ảnh hưởng chức năng.
 - Nguồn dữ liệu là trang HTML công khai, không phải API chính thức —
   nếu trường thay đổi giao diện trang web, phần phân tích HTML
   (`parser.py`) có thể cần cập nhật lại.

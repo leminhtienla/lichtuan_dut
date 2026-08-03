@@ -5,6 +5,12 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-08-03
+
+### Thêm mới
+- Bổ sung logo Trường ĐHBK Đà Nẵng vào repo (`assets/logo.png`, `assets/icon.png` + bản `@2x`) và hiển thị trong README.
+- Ghi chú rõ trong README: logo chỉ hiện trên GitHub, muốn hiện trong giao diện HACS/Home Assistant cần được duyệt qua repo `home-assistant/brands`.
+
 ## [1.2.0] - 2026-08-03
 
 ### Thêm mới
@@ -43,7 +49,8 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 - Sensor `Cảnh báo lịch tuần` hiển thị số mục khớp + chi tiết từng mục.
 - Cấu hình hoàn toàn qua UI (Config Flow + Options Flow), hỗ trợ tiếng Việt/Anh.
 
-[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.1
 [1.2.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.0
 [1.1.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.1.0
 [1.0.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.0.0
