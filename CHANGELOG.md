@@ -5,6 +5,14 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-03
+
+### Thêm mới
+- **Calendar entity** (`calendar.lich_canh_bao_tu_khoa`): mỗi mục lịch khớp từ khóa trở thành 1 sự kiện lịch thật, xem được trực tiếp trên Lovelace bằng Calendar card — cách trực quan nhất để biết nội dung/ngày/giờ mà lên kế hoạch, thay vì chỉ đọc số đếm trên sensor.
+  - Suy luận giờ bắt đầu/kết thúc từ cột "THỜI GIAN": có khoảng giờ → dùng đúng khoảng; chỉ 1 mốc giờ → mặc định 1 tiếng; không có giờ → sự kiện cả ngày.
+  - Mô tả sự kiện gồm: từ khóa/biến thể đã khớp, thành phần, chủ trì, tuần.
+- Hàm `parse_event_datetime()` trong `parser.py` (thuần Python, có thể unit-test độc lập) để chuyển cột ngày/giờ thô thành `start`/`end` chuẩn cho lịch.
+
 ## [1.2.1] - 2026-08-03
 
 ### Thêm mới
@@ -49,7 +57,8 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 - Sensor `Cảnh báo lịch tuần` hiển thị số mục khớp + chi tiết từng mục.
 - Cấu hình hoàn toàn qua UI (Config Flow + Options Flow), hỗ trợ tiếng Việt/Anh.
 
-[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.0
 [1.2.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.1
 [1.2.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.0
 [1.1.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.1.0

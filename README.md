@@ -62,6 +62,37 @@ automation:
             tại {{ trigger.event.data.location }}.
 ```
 
+## Xem nội dung / ngày giờ chi tiết để lên kế hoạch
+
+Sensor chỉ hiện **số lượng** mục khớp làm state chính (để dễ dùng
+trong automation/điều kiện), nhưng chi tiết đầy đủ (ngày, giờ, nội
+dung, địa điểm, chủ trì) luôn có sẵn ở 3 nơi:
+
+1. **Tin nhắn cảnh báo** (`persistent_notification` / notify service):
+   liệt kê thẳng ngày, giờ, nội dung, địa điểm cho từng mục mới.
+2. **Attribute `matches` của sensor** (cả sensor tổng lẫn sensor theo
+   từng nhóm từ khóa): danh sách đầy đủ, dùng được trong template,
+   Markdown card, hoặc automation.
+3. **Entity `calendar.lich_canh_bao_tu_khoa`** (mới từ v1.3.0): mỗi
+   mục khớp trở thành **1 sự kiện lịch thật** (có giờ bắt đầu/kết
+   thúc), xem trực tiếp trên Lovelace bằng Calendar card — đây là
+   cách trực quan nhất để biết "việc gì, lúc nào" mà lên kế hoạch:
+
+   ```yaml
+   type: calendar
+   entities:
+     - calendar.lich_canh_bao_tu_khoa
+   ```
+
+   Quy tắc suy ra giờ: nếu cột "THỜI GIAN" có 2 mốc (vd `08:00 -
+   10:00`) thì lấy đúng khoảng đó; nếu chỉ có 1 mốc (vd `07:00`) thì
+   mặc định kéo dài 1 tiếng; nếu không có giờ nào thì coi là sự kiện
+   **cả ngày**.
+
+   > Lưu ý: lịch chỉ hiển thị trong phạm vi các tuần đang được quét
+   > (tuần hiện tại + "Số tuần kiểm tra thêm" trong Options), không
+   > phải toàn bộ lịch sử/tương lai của trường.
+
 ## Cấu hình từ khóa (hỗ trợ viết tắt / biến thể)
 
 Mỗi **dòng** trong ô "Danh sách nhóm từ khóa" là **một nhóm**, và mỗi

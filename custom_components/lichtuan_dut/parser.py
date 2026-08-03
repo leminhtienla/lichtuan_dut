@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any
 
 from bs4 import BeautifulSoup
@@ -118,6 +118,46 @@ def parse_schedule(html: str, week_label: str = "") -> list[dict[str, Any]]:
         )
 
     return entries
+
+
+def parse_event_datetime(
+    date_str: str, time_str: str
+) -> tuple[Any, Any, bool]:
+    """Chuyển cột 'date' (dd/mm/yyyy) + 'time' của 1 mục lịch thành (start, end, all_day).
+
+    - Nếu 'time' chứa 2 mốc giờ (vd '08:00 - 10:00') -> sự kiện có giờ,
+      start/end là datetime (naive, chưa gắn timezone).
+    - Nếu chỉ có 1 mốc giờ (vd '07:00') -> mặc định kéo dài 1 tiếng.
+    - Nếu không tìm thấy giờ nào (ô trống, hoặc chữ như 'Cả ngày') ->
+      coi là sự kiện cả ngày, start/end là `date` (all_day=True).
+    - Nếu không parse được ngày -> trả về (None, None, True).
+    """
+    try:
+        day_s, month_s, year_s = date_str.strip().split("/")
+        ev_date = date(int(year_s), int(month_s), int(day_s))
+    except (ValueError, AttributeError):
+        return None, None, True
+
+    times = re.findall(r"(\d{1,2}):(\d{2})", time_str or "")
+
+    if not times:
+        return ev_date, ev_date + timedelta(days=1), True
+
+    def _mk(hm: tuple[str, str]) -> datetime:
+        h, m = int(hm[0]), int(hm[1])
+        h = min(h, 23)
+        m = min(m, 59)
+        return datetime(ev_date.year, ev_date.month, ev_date.day, h, m)
+
+    start = _mk(times[0])
+    if len(times) >= 2:
+        end = _mk(times[1])
+        if end <= start:
+            end = start + timedelta(hours=1)
+    else:
+        end = start + timedelta(hours=1)
+
+    return start, end, False
 
 
 def parse_keyword_groups(raw: str) -> list[dict[str, Any]]:
