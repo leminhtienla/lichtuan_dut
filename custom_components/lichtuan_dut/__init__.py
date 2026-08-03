@@ -1,4 +1,4 @@
-"""Tích hợp Lịch Tuần DUT - Cảnh báo từ khóa."""
+"""Tích hợp Lịch Tuần DUT."""
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry

@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "Lịch Tuần DUT - Cảnh báo từ khóa",
+        "title": "Lịch Tuần DUT",
         "description": "Mỗi DÒNG là một nhóm từ khóa (sẽ tạo 1 sensor riêng). Cú pháp: 'Nhãn: biến thể 1, biến thể 2, ...' — gộp tên đầy đủ + viết tắt vào cùng 1 nhóm. Nếu không có dấu ':' thì cả dòng là 1 từ khóa đơn. Ví dụ:\n{example}",
         "data": {
           "keywords": "Danh sách nhóm từ khóa (mỗi dòng 1 nhóm)",

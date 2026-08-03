@@ -1,4 +1,4 @@
-"""Hằng số cho tích hợp Lịch Tuần DUT - Cảnh báo từ khóa."""
+"""Hằng số cho tích hợp Lịch Tuần DUT."""
 from __future__ import annotations
 
 DOMAIN = "lichtuan_dut"

@@ -1,4 +1,4 @@
-# Lịch Tuần DUT - Cảnh báo từ khóa (Home Assistant custom integration)
+# Lịch Tuần DUT (Home Assistant custom integration)
 
 <p align="center">
   <img src="custom_components/lichtuan_dut/brand/logo.png" alt="Logo Trường Đại học Bách khoa - Đại học Đà Nẵng" width="180">
@@ -25,7 +25,7 @@ các từ khóa do bạn chọn (tên người, khoa, bộ môn...).
 
 1. Mở **HACS → góc trên bên phải → Custom repositories**.
 2. Thêm URL repo GitHub của bạn (sau khi bạn đẩy code này lên GitHub), chọn loại **Integration**.
-3. Tìm "Lịch Tuần DUT - Cảnh báo từ khóa" trong HACS, bấm **Download**.
+3. Tìm "Lịch Tuần DUT" trong HACS, bấm **Download**.
 4. Khởi động lại Home Assistant.
 5. Vào **Cài đặt → Thiết bị & Dịch vụ → Thêm tích hợp**, tìm "Lịch Tuần DUT".
 6. Nhập các nhóm từ khóa (mỗi dòng 1 nhóm, xem mục "Cấu hình từ khóa" bên dưới để biết cách gộp biến thể/viết tắt), ví dụ:

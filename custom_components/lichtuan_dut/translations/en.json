@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "DUT Weekly Schedule - Keyword Alerts",
+        "title": "DUT Weekly Schedule",
         "description": "Each LINE is one keyword group (creates its own sensor). Syntax: 'Label: variant 1, variant 2, ...' — combine full name + abbreviations in one group. No ':' means the whole line is a single keyword. Example:\n{example}",
         "data": {
           "keywords": "Keyword groups (one per line)",

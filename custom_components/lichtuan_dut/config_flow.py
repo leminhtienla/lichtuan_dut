@@ -1,4 +1,4 @@
-"""Config flow cho Lịch Tuần DUT - Cảnh báo từ khóa."""
+"""Config flow cho Lịch Tuần DUT."""
 from __future__ import annotations
 
 from typing import Any
@@ -92,7 +92,7 @@ class LichTuanDutConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors["base"] = "no_keywords"
             else:
                 return self.async_create_entry(
-                    title="Lịch Tuần DUT - Cảnh báo từ khóa",
+                    title="Lịch Tuần DUT",
                     data=user_input,
                 )
 

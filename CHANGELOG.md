@@ -5,6 +5,11 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-03
+
+### Thay đổi
+- Rút gọn tên hiển thị của integration từ "Lịch Tuần DUT - Cảnh báo từ khóa" thành **"Lịch Tuần DUT"** ở mọi nơi: `manifest.json`, `hacs.json`, tiêu đề config flow, README. (Tên sensor/device vẫn giữ nguyên như cũ, không đổi.)
+
 ## [1.3.3] - 2026-08-03
 
 ### Thay đổi
@@ -74,7 +79,8 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 - Sensor `Cảnh báo lịch tuần` hiển thị số mục khớp + chi tiết từng mục.
 - Cấu hình hoàn toàn qua UI (Config Flow + Options Flow), hỗ trợ tiếng Việt/Anh.
 
-[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.4.0
 [1.3.3]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.3
 [1.3.2]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.2
 [1.3.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.1
