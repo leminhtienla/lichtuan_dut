@@ -1,0 +1,55 @@
+name: Release
+
+# Cách dùng khi phát hành bản mới:
+#   1. Sửa version trong custom_components/lichtuan_dut/manifest.json (vd 1.1.0)
+#   2. Thêm mục mới vào CHANGELOG.md, ví dụ "## [1.1.0] - 2026-09-01"
+#   3. Commit, rồi tạo & đẩy tag CÙNG số với manifest:
+#        git tag v1.1.0
+#        git push origin v1.1.0
+#   4. Workflow này tự lấy đúng đoạn changelog của bản đó làm nội dung
+#      GitHub Release -> HACS sẽ hiển thị nội dung này cho người dùng khi
+#      họ thấy có bản cập nhật trong HACS.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kiểm tra version trong manifest.json khớp với tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST_VERSION=$(jq -r .version custom_components/lichtuan_dut/manifest.json)
+          if [ "$TAG_VERSION" != "$MANIFEST_VERSION" ]; then
+            echo "::error::Tag ($TAG_VERSION) không khớp version trong manifest.json ($MANIFEST_VERSION)"
+            exit 1
+          fi
+
+      - name: Trích đoạn changelog tương ứng
+        id: changelog
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          awk -v ver="$TAG_VERSION" '
+            BEGIN{found=0}
+            /^## \[/{
+              if (found) exit
+              if ($0 ~ "\\[" ver "\\]") { found=1; next }
+            }
+            /^\[.*\]:/{ if (found) exit }
+            found{print}
+          ' CHANGELOG.md > release_notes.md
+          if [ ! -s release_notes.md ]; then
+            echo "Phát hành phiên bản ${TAG_VERSION}." > release_notes.md
+          fi
+
+      - name: Tạo GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "${{ github.ref_name }}"
+          body_path: release_notes.md
+          generate_release_notes: false

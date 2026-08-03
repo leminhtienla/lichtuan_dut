@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Lịch Tuần DUT - Cảnh báo từ khóa",
+        "description": "Nhập các từ khóa cần theo dõi trên lichtuan.dut.udn.vn, cách nhau bởi dấu phẩy. Ví dụ: {example}",
+        "data": {
+          "keywords": "Từ khóa (cách nhau bởi dấu phẩy)",
+          "scan_interval": "Tần suất kiểm tra (phút)",
+          "weeks_ahead": "Số tuần kiểm tra thêm (0 = chỉ tuần hiện tại)",
+          "notify_service": "Notify service tùy chọn (vd: notify.mobile_app_dien_thoai)"
+        }
+      }
+    },
+    "error": {
+      "no_keywords": "Vui lòng nhập ít nhất một từ khóa hợp lệ."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Cập nhật cấu hình",
+        "data": {
+          "keywords": "Từ khóa (cách nhau bởi dấu phẩy)",
+          "scan_interval": "Tần suất kiểm tra (phút)",
+          "weeks_ahead": "Số tuần kiểm tra thêm (0 = chỉ tuần hiện tại)",
+          "notify_service": "Notify service tùy chọn (vd: notify.mobile_app_dien_thoai)"
+        }
+      }
+    },
+    "error": {
+      "no_keywords": "Vui lòng nhập ít nhất một từ khóa hợp lệ."
+    }
+  }
+}

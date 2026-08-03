@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DUT Weekly Schedule - Keyword Alerts",
+        "description": "Enter keywords to watch for on lichtuan.dut.udn.vn, separated by commas. Example: {example}",
+        "data": {
+          "keywords": "Keywords (comma separated)",
+          "scan_interval": "Check interval (minutes)",
+          "weeks_ahead": "Extra weeks to check (0 = current week only)",
+          "notify_service": "Optional notify service (e.g. notify.mobile_app_phone)"
+        }
+      }
+    },
+    "error": {
+      "no_keywords": "Please enter at least one valid keyword."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Update configuration",
+        "data": {
+          "keywords": "Keywords (comma separated)",
+          "scan_interval": "Check interval (minutes)",
+          "weeks_ahead": "Extra weeks to check (0 = current week only)",
+          "notify_service": "Optional notify service (e.g. notify.mobile_app_phone)"
+        }
+      }
+    },
+    "error": {
+      "no_keywords": "Please enter at least one valid keyword."
+    }
+  }
+}
