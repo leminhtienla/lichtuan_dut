@@ -5,6 +5,18 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-08-03
+
+### Thay đổi
+- Chuyển thư mục logo từ `assets/` (gốc repo) sang `custom_components/lichtuan_dut/brand/`, đồng bộ đúng theo convention của dự án tham khảo `cpc-evn` (cùng tác giả). Cập nhật lại đường dẫn ảnh trong README.
+
+## [1.3.1] - 2026-08-03
+
+### Sửa lỗi / Cải thiện
+- Xử lý nền trắng của logo thành **trong suốt** (giữ viền vàng + chữ đỏ/xanh dương), tránh mảng trắng chói khi Home Assistant ở dark mode.
+- Thêm `brands_submission/custom_integrations/lichtuan_dut/` — thư mục đã đóng gói sẵn đúng cấu trúc để copy thẳng vào fork của `home-assistant/brands`.
+- Thêm `BRANDS_SUBMISSION.md`: hướng dẫn từng bước fork → copy → PR để logo hiển thị thật trong HACS/Home Assistant UI (icon trong `assets/` chỉ hiện trên GitHub, không tự hiện trong app).
+
 ## [1.3.0] - 2026-08-03
 
 ### Thêm mới
@@ -57,7 +69,9 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 - Sensor `Cảnh báo lịch tuần` hiển thị số mục khớp + chi tiết từng mục.
 - Cấu hình hoàn toàn qua UI (Config Flow + Options Flow), hỗ trợ tiếng Việt/Anh.
 
-[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.2...HEAD
+[1.3.2]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.2
+[1.3.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.1
 [1.3.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.0
 [1.2.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.1
 [1.2.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.2.0
