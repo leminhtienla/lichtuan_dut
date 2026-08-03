@@ -188,10 +188,8 @@ validate` mỗi lần push, giúp bắt lỗi cấu trúc integration sớm.
 - **Quan trọng:** logo **sẽ hiển thị trên GitHub/README** ngay, nhưng
   **sẽ KHÔNG tự hiển thị** trong HACS hay trang Thiết bị & Dịch vụ của
   Home Assistant — cả hai lấy icon từ CDN `home-assistant/brands`,
-  không đọc file trong repo này. Xem hướng dẫn từng bước để submit PR
-  vào repo đó tại **[`BRANDS_SUBMISSION.md`](./BRANDS_SUBMISSION.md)**
-  (đã chuẩn bị sẵn thư mục đúng cấu trúc trong `brands_submission/`).
-  Với dùng cá nhân không public, có thể bỏ qua — không ảnh hưởng chức năng.
+  không đọc file trong repo này. Với dùng cá nhân không public, có
+  thể bỏ qua — không ảnh hưởng chức năng.
 - Nguồn dữ liệu là trang HTML công khai, không phải API chính thức —
   nếu trường thay đổi giao diện trang web, phần phân tích HTML
   (`parser.py`) có thể cần cập nhật lại.

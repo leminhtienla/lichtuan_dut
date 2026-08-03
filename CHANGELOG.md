@@ -5,6 +5,11 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ## [Unreleased]
 
+## [1.3.3] - 2026-08-03
+
+### Thay đổi
+- Bỏ thư mục `brands_submission/` và `BRANDS_SUBMISSION.md` (không cần thiết cho dùng cá nhân). Logo vẫn giữ ở `custom_components/lichtuan_dut/brand/` để hiển thị trên GitHub/README.
+
 ## [1.3.2] - 2026-08-03
 
 ### Thay đổi
@@ -69,7 +74,8 @@ Phiên bản theo [Semantic Versioning](https://semver.org/lang/vi/).
 - Sensor `Cảnh báo lịch tuần` hiển thị số mục khớp + chi tiết từng mục.
 - Cấu hình hoàn toàn qua UI (Config Flow + Options Flow), hỗ trợ tiếng Việt/Anh.
 
-[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.2...HEAD
+[Unreleased]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/compare/v1.3.3...HEAD
+[1.3.3]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.3
 [1.3.2]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.2
 [1.3.1]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.1
 [1.3.0]: https://github.com/YOUR_GITHUB_USERNAME/lichtuan_dut/releases/tag/v1.3.0
